@@ -1,0 +1,27 @@
+public class UnitConverter {
+
+    // Convert Length (Meters to Kilometers)
+    public static double convertLength(double meters) {
+        return meters / 1000;
+    }
+
+    // Convert Weight (Kilograms to Pounds)
+    public static double convertWeight(double kilograms) {
+        return kilograms * 2.20462;
+    }
+
+    // Convert Temperature (Celsius to Fahrenheit)
+    public static double convertTemperature(double celsius) {
+        return (celsius * 9/5) + 32;
+    }
+
+    // Save conversion to database
+    public static void saveConversionToDatabase(String type, double inputValue, double convertedValue) {
+        String query = "INSERT INTO conversions (conversion_type, input_value, converted_value) VALUES (?, ?, ?)";
+        try {
+            DatabaseHelper.executeUpdate(query, type, inputValue, convertedValue);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -1,0 +1,18 @@
+-- Create the database (SQLite will create it automatically when you connect)
+-- Create Expense table
+CREATE TABLE expenses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    description TEXT,
+    amount REAL,
+    category TEXT,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Conversion table
+CREATE TABLE conversions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conversion_type TEXT,
+    input_value REAL,
+    converted_value REAL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

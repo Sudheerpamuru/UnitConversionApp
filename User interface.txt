@@ -1,0 +1,109 @@
+import java.util.Scanner;
+
+public class MainApp {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("Welcome to the Unit Converter and Expense Manager!");
+            System.out.println("1. Unit Conversion");
+            System.out.println("2. Manage Expenses");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    performUnitConversion(scanner);
+                    break;
+                case 2:
+                    manageExpenses(scanner);
+                    break;
+                case 3:
+                    System.out.println("Exiting application...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice, try again.");
+            }
+        }
+    }
+
+    // Method to perform unit conversion
+    private static void performUnitConversion(Scanner scanner) {
+        System.out.println("Choose Conversion Type:");
+        System.out.println("1. Length (meters to kilometers)");
+        System.out.println("2. Weight (kilograms to pounds)");
+        System.out.println("3. Temperature (Celsius to Fahrenheit)");
+        System.out.print("Choose an option: ");
+        int conversionChoice = scanner.nextInt();
+        System.out.print("Enter value to convert: ");
+        double value = scanner.nextDouble();
+
+        double result = 0;
+        switch (conversionChoice) {
+            case 1:
+                result = UnitConverter.convertLength(value);
+                break;
+            case 2:
+                result = UnitConverter.convertWeight(value);
+                break;
+            case 3:
+                result = UnitConverter.convertTemperature(value);
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                return;
+        }
+
+        System.out.println("Converted value: " + result);
+        UnitConverter.saveConversionToDatabase("Conversion", value, result);
+    }
+
+    // Method to manage expenses
+    private static void manageExpenses(Scanner scanner) {
+        System.out.println("Expense Management");
+        System.out.println("1. Add Expense");
+        System.out.println("2. Edit Expense");
+        System.out.println("3. Delete Expense");
+        System.out.println("4. View All Expenses");
+        System.out.print("Choose an option: ");
+        int expenseChoice = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        switch (expenseChoice) {
+            case 1:
+                System.out.print("Enter description: ");
+                String description = scanner.nextLine();
+                System.out.print("Enter amount: ");
+                double amount = scanner.nextDouble();
+                System.out.print("Enter category: ");
+                String category = scanner.next();
+                ExpenseManager.addExpense(description, amount, category);
+                break;
+            case 2:
+                System.out.print("Enter expense ID to edit: ");
+                int editId = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+                System.out.print("Enter new description: ");
+                String newDescription = scanner.nextLine();
+                System.out.print("Enter new amount: ");
+                double newAmount = scanner.nextDouble();
+                System.out.print("Enter new category: ");
+                String newCategory = scanner.next();
+                ExpenseManager.editExpense(editId, newDescription, newAmount, newCategory);
+                break;
+            case 3:
+                System.out.print("Enter expense ID to delete: ");
+                int deleteId = scanner.nextInt();
+                ExpenseManager.deleteExpense(deleteId);
+                break;
+            case 4:
+                ExpenseManager.getAllExpenses();
+                break;
+            default:
+                System.out.println("Invalid choice.");
+        }
+    }
+}

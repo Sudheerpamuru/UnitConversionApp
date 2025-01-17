@@ -1,0 +1,50 @@
+import java.sql.*;
+
+public class ExpenseManager {
+
+    // Add expense to the database
+    public static void addExpense(String description, double amount, String category) {
+        String query = "INSERT INTO expenses (description, amount, category) VALUES (?, ?, ?)";
+        try {
+            DatabaseHelper.executeUpdate(query, description, amount, category);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Edit an existing expense
+    public static void editExpense(int id, String description, double amount, String category) {
+        String query = "UPDATE expenses SET description = ?, amount = ?, category = ? WHERE id = ?";
+        try {
+            DatabaseHelper.executeUpdate(query, description, amount, category, id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Delete an expense
+    public static void deleteExpense(int id) {
+        String query = "DELETE FROM expenses WHERE id = ?";
+        try {
+            DatabaseHelper.executeUpdate(query, id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Get all expenses from the database
+    public static void getAllExpenses() {
+        String query = "SELECT * FROM expenses";
+        try (ResultSet rs = DatabaseHelper.executeQuery(query)) {
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String description = rs.getString("description");
+                double amount = rs.getDouble("amount");
+                String category = rs.getString("category");
+                System.out.println("ID: " + id + ", Description: " + description + ", Amount: " + amount + ", Category: " + category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

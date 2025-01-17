@@ -1,0 +1,30 @@
+import java.sql.*;
+
+public class DatabaseHelper {
+    private static final String URL = "jdbc:sqlite:expense_conversion.db"; // SQLite database file
+
+    // Connect to the SQLite database
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL);
+    }
+
+    // Method to execute a query (e.g., inserting, updating, deleting)
+    public static void executeUpdate(String query, Object... params) throws SQLException {
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            for (int i = 0; i < params.length; i++) {
+                stmt.setObject(i + 1, params[i]);
+            }
+            stmt.executeUpdate();
+        }
+    }
+
+    // Method to query data (e.g., selecting)
+    public static ResultSet executeQuery(String query, Object... params) throws SQLException {
+        Connection conn = getConnection();
+        PreparedStatement stmt = conn.prepareStatement(query);
+        for (int i = 0; i < params.length; i++) {
+            stmt.setObject(i + 1, params[i]);
+        }
+        return stmt.executeQuery();
+    }
+}
